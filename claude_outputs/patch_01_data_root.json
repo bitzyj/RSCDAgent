@@ -1,0 +1,23 @@
+{
+  "id": "patch_01",
+  "timestamp": "2026-04-23T15:30:00",
+  "file": "configs/BIT-LEVIR.yaml",
+  "field": "data_root",
+  "original_value": "./datasets",
+  "new_value": "./datasets/LEVIR",
+  "reason": "需要指定正确的数据集路径，指向本地的 LEVIR-CD 数据集目录",
+  "approved": false,
+  "status": "pending",
+  "diff": "--- configs/BIT-LEVIR.yaml\n+++ configs/BIT-LEVIR.yaml\n@@ ... @@\n-data_root: ./datasets\n+data_root: ./datasets/LEVIR\n",
+  "diff_type": "inline",
+  "risk_level": "low",
+  "modification_type": "path_configuration",
+  "safety_checks": {
+    "field_safe": true,
+    "path_safe": true,
+    "no_credentials": true,
+    "no_system_files": true
+  },
+  "execution_command": "sed -i 's|data_root: ./datasets|data_root: ./datasets/LEVIR|g' configs/BIT-LEVIR.yaml",
+  "rollback_command": "sed -i 's|data_root: ./datasets/LEVIR|data_root: ./datasets|g' configs/BIT-LEVIR.yaml"
+}

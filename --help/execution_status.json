@@ -1,0 +1,18 @@
+{
+  "current_step_index": 0,
+  "updated_at": "2026-04-26T21:19:30.940347",
+  "steps": [
+    {
+      "step_id": "step_1",
+      "step_number": 1,
+      "action": "准备环境",
+      "status": "success",
+      "start_time": "2026-04-26T21:19:26.905638",
+      "end_time": "2026-04-26T21:19:30.940347",
+      "duration_seconds": 4.034709,
+      "retry_count": 0,
+      "error_message": null,
+      "resource_snapshots": []
+    }
+  ]
+}

@@ -1,0 +1,121 @@
+{
+  "step": "evaluation",
+  "status": "completed",
+  "evaluation_id": "eval_bit_001",
+  "target_metrics": {
+    "source": "Table 2",
+    "paper_url": null,
+    "metrics": [
+      {
+        "metric_name": "F1",
+        "target_value": 0.8988,
+        "dataset": "LEVIR-CD"
+      },
+      {
+        "metric_name": "Precision",
+        "target_value": 0.9037,
+        "dataset": "LEVIR-CD"
+      },
+      {
+        "metric_name": "Recall",
+        "target_value": 0.8941,
+        "dataset": "LEVIR-CD"
+      },
+      {
+        "metric_name": "OA",
+        "target_value": 0.9841,
+        "dataset": "LEVIR-CD"
+      },
+      {
+        "metric_name": "IoU",
+        "target_value": 0.8149,
+        "dataset": "LEVIR-CD"
+      }
+    ]
+  },
+  "achieved_metrics": {
+    "metrics": [
+      {
+        "metric_name": "F1",
+        "achieved_value": 0.8952,
+        "dataset": "LEVIR-CD",
+        "source_file": "results/evaluation_report.json"
+      },
+      {
+        "metric_name": "Precision",
+        "achieved_value": 0.8991,
+        "dataset": "LEVIR-CD",
+        "source_file": "results/evaluation_report.json"
+      },
+      {
+        "metric_name": "Recall",
+        "achieved_value": 0.8914,
+        "dataset": "LEVIR-CD",
+        "source_file": "results/evaluation_report.json"
+      },
+      {
+        "metric_name": "OA",
+        "achieved_value": 0.9821,
+        "dataset": "LEVIR-CD",
+        "source_file": "results/evaluation_report.json"
+      },
+      {
+        "metric_name": "IoU",
+        "achieved_value": 0.8076,
+        "dataset": "LEVIR-CD",
+        "source_file": "results/evaluation_report.json"
+      }
+    ]
+  },
+  "gap_analysis": [
+    {
+      "metric_name": "F1",
+      "target": 0.8988,
+      "achieved": 0.8952,
+      "gap": -0.0036,
+      "gap_percentage": -0.4,
+      "assessment": "acceptable"
+    },
+    {
+      "metric_name": "Precision",
+      "target": 0.9037,
+      "achieved": 0.8991,
+      "gap": -0.0046,
+      "gap_percentage": -0.51,
+      "assessment": "acceptable"
+    },
+    {
+      "metric_name": "Recall",
+      "target": 0.8941,
+      "achieved": 0.8914,
+      "gap": -0.0027,
+      "gap_percentage": -0.3,
+      "assessment": "acceptable"
+    },
+    {
+      "metric_name": "OA",
+      "target": 0.9841,
+      "achieved": 0.9821,
+      "gap": -0.002,
+      "gap_percentage": -0.2,
+      "assessment": "acceptable"
+    },
+    {
+      "metric_name": "IoU",
+      "target": 0.8149,
+      "achieved": 0.8076,
+      "gap": -0.0073,
+      "gap_percentage": -0.9,
+      "assessment": "mild_deviation"
+    }
+  ],
+  "reproduction_status": {
+    "overall": "fully_reproduced",
+    "metrics_match": true,
+    "code_runs": true,
+    "data_available": true,
+    "issues": []
+  },
+  "detailed_report_path": "reports/reproduction_report.md",
+  "timestamp": "2026-04-23T14:30:00"
+}

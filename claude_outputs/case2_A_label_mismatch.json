@@ -1,0 +1,16 @@
+{
+  "case_id": "case2",
+  "severity": "error",
+  "category": "pairing",
+  "description": "A 与 Label 数量不一致",
+  "dataset_path": "D:/data/BadLEVIR",
+  "split": "test",
+  "details": {
+    "a_count": 128,
+    "label_count": 125,
+    "missing_in_label": 3,
+    "missing_files": ["test_5.png", "test_12.png", "test_88.png"]
+  },
+  "impact": "缺少对应标签，无法进行评估",
+  "suggestion": "检查标签文件是否遗漏或命名错误，补充缺失标签"
+}

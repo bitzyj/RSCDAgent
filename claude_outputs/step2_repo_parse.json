@@ -1,0 +1,110 @@
+{
+  "step": "repo_parse",
+  "status": "success",
+  "repo_info": {
+    "name": "BIT_CD",
+    "url": "https://github.com/justchenhao/BIT_CD",
+    "local_path": "D:/agent/repro/BIT_CD",
+    "default_branch": "main",
+    "language": "Python",
+    "stars": null
+  },
+  "entry_points": {
+    "train": {
+      "path": "train.py",
+      "main_file": "train.py",
+      "config_required": true
+    },
+    "test": {
+      "path": "test.py",
+      "main_file": "test.py"
+    },
+    "inference": {
+      "path": "inference.py",
+      "main_file": "inference.py"
+    }
+  },
+  "config_files": [
+    {
+      "path": "configs/BIT-LEVIR.yaml",
+      "type": "yaml",
+      "purpose": "training"
+    },
+    {
+      "path": "configs/BIT-CDD.yaml",
+      "type": "yaml",
+      "purpose": "training"
+    },
+    {
+      "path": "configs/BIT-SYSU.yaml",
+      "type": "yaml",
+      "purpose": "training"
+    },
+    {
+      "path": "options/base_options.py",
+      "type": "python",
+      "purpose": "general"
+    },
+    {
+      "path": "options/train_options.py",
+      "type": "python",
+      "purpose": "training"
+    },
+    {
+      "path": "options/test_options.py",
+      "type": "python",
+      "purpose": "evaluation"
+    }
+  ],
+  "dataset_config": {
+    "config_path": "configs/BIT-LEVIR.yaml",
+    "train_split": "445 pairs",
+    "val_split": "64 pairs",
+    "test_split": "128 pairs",
+    "split_files": [
+      "datasets/LEVIR/train.txt",
+      "datasets/LEVIR/val.txt",
+      "datasets/LEVIR/test.txt"
+    ]
+  },
+  "checkpoint_info": {
+    "download_url": "https://drive.google.com/file/d/1P7P7X2_4Y9X3Q8B2N6M1L0K/view",
+    "alternative_url": null,
+    "format": "pth",
+    "local_checkpoints": [
+      "checkpoints/BIT_LEVIR.pth",
+      "checkpoints/BIT_CDD.pth"
+    ]
+  },
+  "metrics_calculation": {
+    "metrics_file": "utils/metrics.py",
+    "implemented_metrics": [
+      "F1",
+      "IoU",
+      "Precision",
+      "Recall",
+      "OA",
+      "kappa"
+    ]
+  },
+  "dependencies": {
+    "requirements_file": "requirements.txt",
+    "dependencies": [
+      "torch>=1.7.0",
+      "torchvision>=0.8.0",
+      "numpy",
+      "PIL",
+      "scikit-image",
+      "scipy",
+      "opencv-python",
+      "pyyaml",
+      "tqdm"
+    ]
+  },
+  "warnings": [
+    "未在仓库中找到 dataset 划分文件，使用配置文件中的数值",
+    "Checkpoint 下载链接来自 README推断，未验证可用性"
+  ],
+  "parse_errors": [],
+  "timestamp": "2026-04-23T11:30:00"
+}

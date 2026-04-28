@@ -1,0 +1,15 @@
+{
+  "case_id": "case5",
+  "severity": "warning",
+  "category": "structure",
+  "description": "缺少 val split 目录",
+  "dataset_path": "D:/data/NoValSplit",
+  "split": "val",
+  "details": {
+    "expected_dirs": ["train", "val", "test"],
+    "existing_dirs": ["train", "test"],
+    "missing_dirs": ["val"]
+  },
+  "impact": "无法进行验证，只能手动划分训练集或跳过验证",
+  "suggestion": "从 train 中划分 10-15% 作为验证集，或联系数据提供方获取 val 划分"
+}

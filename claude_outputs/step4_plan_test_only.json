@@ -1,0 +1,103 @@
+{
+  "step": "generate_plan",
+  "status": "success",
+  "plan_id": "plan_bit_testonly",
+  "recommended_steps": [
+    {
+      "step_number": 1,
+      "action": "准备环境",
+      "description": "创建 Python 虚拟环境并安装依赖",
+      "command": "python -m venv env && source env/bin/activate && pip install -r requirements.txt",
+      "config_modifications": [],
+      "expected_output": "venv 目录创建成功，依赖安装完成",
+      "risk_level": "low",
+      "stop_condition": null,
+      "retry_condition": null,
+      "estimated_time": "5-10min"
+    },
+    {
+      "step_number": 2,
+      "action": "准备数据集",
+      "description": "链接或复制 LEVIR-CD 数据集到正确位置",
+      "command": "mkdir -p datasets && ln -s /path/to/LEVIR-CD datasets/LEVIR",
+      "config_modifications": [
+        {
+          "file": "configs/BIT-LEVIR.yaml",
+          "field": "data_root",
+          "current_value": "./datasets",
+          "recommended_value": "./datasets/LEVIR",
+          "reason": "需要指定正确的本地数据集路径"
+        }
+      ],
+      "expected_output": "数据集路径配置正确",
+      "risk_level": "low",
+      "stop_condition": null,
+      "retry_condition": null,
+      "estimated_time": "1-5min"
+    },
+    {
+      "step_number": 3,
+      "action": "Dry-run 验证",
+      "description": "验证代码和配置可以正常加载",
+      "command": "python train.py --config configs/BIT-LEVIR.yaml --dry_run",
+      "config_modifications": [],
+      "expected_output": "配置文件加载成功，模型可以初始化",
+      "risk_level": "low",
+      "stop_condition": null,
+      "retry_condition": null,
+      "estimated_time": "1-2min"
+    },
+    {
+      "step_number": 4,
+      "action": "Test-only 模式",
+      "description": "使用预训练权重快速验证代码和流程",
+      "command": "python test.py --config configs/BIT-LEVIR.yaml --checkpoint checkpoints/BIT_LEVIR.pth",
+      "config_modifications": [],
+      "expected_output": "测试完成，输出预测结果和指标",
+      "risk_level": "low",
+      "stop_condition": null,
+      "retry_condition": null,
+      "estimated_time": "5-10min"
+    },
+    {
+      "step_number": 5,
+      "action": "评估与对比",
+      "description": "验证指标是否与论文目标一致",
+      "command": "python test.py --config configs/BIT-LEVIR.yaml --checkpoint checkpoints/BIT_LEVIR.pth --save_results",
+      "config_modifications": [],
+      "expected_output": "评估完成，输出与论文目标对比表",
+      "risk_level": "low",
+      "stop_condition": null,
+      "retry_condition": null,
+      "estimated_time": "5-10min"
+    }
+  ],
+  "execution_order": [1, 2, 3, 4, 5],
+  "critical_risks": [
+    {
+      "risk": "需要下载预训练权重 (约 200MB)",
+      "mitigation": "从 Google Drive 下载",
+      "fallback": "无预训练权重时跳过此步"
+    }
+  ],
+  "required_modifications": [
+    {
+      "file": "configs/BIT-LEVIR.yaml",
+      "field": "data_root",
+      "reason": "需要指向本地数据集路径"
+    },
+    {
+      "file": "checkpoints/BIT_LEVIR.pth",
+      "field": "download",
+      "reason": "需要下载预训练权重"
+    }
+  ],
+  "estimated_total_time": "20-30min",
+  "dry_run_recommended": true,
+  "test_only_mode": {
+    "supported": true,
+    "command": "python test.py --config configs/BIT-LEVIR.yaml --checkpoint checkpoints/BIT_LEVIR.pth",
+    "limitations": []
+  },
+  "timestamp": "2026-04-23T12:30:00"
+}

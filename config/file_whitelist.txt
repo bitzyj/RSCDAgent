@@ -1,0 +1,50 @@
+# File modification whitelist - RSCDAgent only allows modifying the following files
+# Paths are relative to repo root
+
+# Configuration files (allowed to modify)
+configs/
+config/
+*.yaml
+*.yml
+*.json
+*.cfg
+*.ini
+*.toml
+
+# Script files (allowed to modify)
+scripts/
+*.sh
+*.py
+
+# Data configuration (allowed to modify)
+data/
+dataset/
+dataloader/
+data_config.*
+
+# Training scripts (allowed to modify)
+train*.py
+main*.py
+
+# Test scripts (allowed to modify)
+test*.py
+eval*.py
+evaluate*.py
+
+# Model files (read-only)
+models/
+networks/
+backbone/
+*.pth
+*.pt
+*.ckpt
+
+# Original code (read-only - unless explicitly needed)
+*.py (review)
+
+# Forbidden files
+# Any files containing:
+# - Credentials
+# - API keys
+# - Passwords
+# - tokens

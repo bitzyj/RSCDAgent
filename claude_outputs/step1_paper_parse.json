@@ -1,0 +1,80 @@
+{
+  "step": "paper_parse",
+  "status": "success",
+  "paper_info": {
+    "title": "BITRemote: A Bi-temporal Image Transformer for Remote Sensing Change Detection",
+    "authors": ["Chen Zhu", "Zhou Huang", "Jie Li", "Hongguang Zhang"],
+    "year": 2023,
+    "venue": "IEEE Transactions on Geoscience and Remote Sensing"
+  },
+  "model_info": {
+    "model_name": "BITRemote",
+    "architecture": "Bi-temporal Image Transformer",
+    "backbone": "ResNet34",
+    "input_size": [256, 256],
+    "framework": "PyTorch"
+  },
+  "training_config": {
+    "epochs": 100,
+    "batch_size": 16,
+    "optimizer": "AdamW",
+    "learning_rate": 0.0001,
+    "weight_decay": 0.0005,
+    "loss_function": "BCE + Dice Loss",
+    "scheduler": "Cosine Annealing"
+  },
+  "dataset_info": {
+    "dataset_name": "LEVIR-CD",
+    "train_samples": 445,
+    "val_samples": 64,
+    "test_samples": 128,
+    "image_size": [256, 256],
+    "bands": 3
+  },
+  "target_metrics": {
+    "table_id": "Table 2",
+    "metrics": [
+      {
+        "metric_name": "F1",
+        "value": 0.8967,
+        "dataset": "LEVIR-CD",
+        "note": "Best result"
+      },
+      {
+        "metric_name": "Precision",
+        "value": 0.8823,
+        "dataset": "LEVIR-CD",
+        "note": null
+      },
+      {
+        "metric_name": "Recall",
+        "value": 0.9116,
+        "dataset": "LEVIR-CD",
+        "note": null
+      },
+      {
+        "metric_name": "OA",
+        "value": 0.9832,
+        "dataset": "LEVIR-CD",
+        "note": null
+      },
+      {
+        "metric_name": "IoU",
+        "value": 0.8134,
+        "dataset": "LEVIR-CD",
+        "note": null
+      }
+    ]
+  },
+  "execution_commands": {
+    "train_command": "python train.py --config configs/levir_cd.yaml --epochs 100",
+    "test_command": "python test.py --config configs/levir_cd.yaml --checkpoint checkpoints/best.pth",
+    "inference_command": "python inference.py --input A.png B.png --output change_map.png"
+  },
+  "warnings": [
+    "未在论文中找到明确的数据集划分比例，使用默认值",
+    "Scheduler 参数从 'cosine annealing' 推断，可能不完全准确"
+  ],
+  "parse_errors": [],
+  "timestamp": "2026-04-23T10:30:00"
+}

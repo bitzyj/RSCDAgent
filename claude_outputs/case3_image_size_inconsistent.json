@@ -1,0 +1,19 @@
+{
+  "case_id": "case3",
+  "severity": "warning",
+  "category": "image_check",
+  "description": "图像尺寸不一致",
+  "dataset_path": "D:/data/MixedSizeCD",
+  "split": "train",
+  "details": {
+    "expected_size": [256, 256],
+    "inconsistent_count": 7,
+    "inconsistent_files": [
+      {"filename": "train_50.png", "actual_size": [512, 256]},
+      {"filename": "train_88.png", "actual_size": [300, 300]},
+      {"filename": "train_150.png", "actual_size": [256, 512]}
+    ]
+  },
+  "impact": "批量训练时可能报错或产生尺寸不匹配错误",
+  "suggestion": "将图像 resize 到统一尺寸 256x256，或在配置中设置动态 resize"
+}

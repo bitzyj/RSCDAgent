@@ -1,0 +1,44 @@
+{
+  "assessment_id": "{{ assessment_id }}",
+  "paper": {
+    "title": "{{ paper.title }}",
+    "url": "{{ paper.url or null }}"
+  },
+  "repo": {
+    "name": "{{ repo.name }}",
+    "url": "{{ repo.url }}"
+  },
+  "reproduction": {
+    "status": "{{ reproduction.status }}",
+    "reproducible_as_test_only": {{ reproduction.test_only_supported | lower }},
+    "requires_modifications": {{ reproduction.modifications | tojson }},
+    "blocking_issues": {{ reproduction.blocking_issues | tojson }}
+  },
+  "metrics_comparison": [
+    {% for metric in metrics_comparison %}
+    {
+      "metric": "{{ metric.name }}",
+      "target": {{ metric.target }},
+      "achieved": {% if metric.achieved is not none %}{{ metric.achieved }}{% else %}null{% endif %},
+      "gap": {% if metric.gap is not none %}{{ metric.gap }}{% else %}null{% endif %},
+      "pass": {% if metric.pass %}true{% else %}false{% endif %}
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ],
+  "data_quality": {
+    "status": "{{ data_quality.status }}",
+    "issues": {{ data_quality.issues | tojson }}
+  },
+  "execution_summary": {
+    "total_steps": {{ execution_summary.total_steps }},
+    "successful_steps": {{ execution_summary.successful_steps }},
+    "failed_steps": {{ execution_summary.failed_steps }},
+    "total_duration_seconds": {{ execution_summary.total_duration }}
+  },
+  "recommendations": [
+    {% for rec in recommendations %}
+    "{{ rec }}"{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ],
+  "timestamp": "{{ timestamp }}"
+}

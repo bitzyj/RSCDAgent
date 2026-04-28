@@ -1,0 +1,18 @@
+# Core dependencies
+torch
+numpy
+pandas
+openpyxl
+jinja2
+pyyaml
+pdfplumber
+psutil
+
+# MCP SDK
+mcp
+
+# Optional: for Excel formatting
+openpyxl>=1.0.0
+
+# Optional: for paper arxiv download
+arxiv

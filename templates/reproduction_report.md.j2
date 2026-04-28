@@ -1,0 +1,146 @@
+# Remote Sensing Change Detection Paper Reproduction Report
+
+## Basic Information
+
+| Field | Value |
+|-------|-------|
+| **Paper Title** | {{ paper_title }} |
+| **Repository URL** | {{ repo_url }} |
+| **Reproduction Date** | {{ reproduction_date }} |
+| **Overall Status** | {% if overall_status == 'fully_reproduced' %}Fully Reproduced{% elif overall_status == 'partially_reproduced' %}Partially Reproduced{% else %}Failed{% endif %} |
+
+## Execution Summary
+
+{% if execution_summary %}
+{{ execution_summary }}
+{% else %}
+This report documents the complete process of remote sensing change detection paper reproduction, including paper parsing, repository inspection, dataset validation, execution, and result evaluation.
+{% endif %}
+
+## Metrics Comparison
+
+**Target Source**: {{ target_source }}
+**Calculation Method**: cm2score (confusion matrix based)
+
+| Metric | Paper Target | Achieved | Absolute Gap | Relative Gap | Assessment |
+|--------|--------------|----------|--------------|--------------|------------|
+{% for gap in gap_analysis %}
+{% if gap.achieved is not none %}
+| {{ gap.metric_name }} | {{ "%.4f"|format(gap.target) }} | {{ "%.4f"|format(gap.achieved) }} | {{ "+/-%.4f"|format(gap.gap) if gap.gap else '-' }} | {% if gap.gap_percentage %}{{ "%.2f%%"|format(gap.gap_percentage) }}{% else %}-{% endif %} | {% if gap.assessment == 'acceptable' %}Acceptable{% elif gap.assessment == 'mild_deviation' %}Mild Deviation{% elif gap.assessment == 'significant_deviation' %}Significant Deviation{% elif gap.assessment == 'exceeded' %}Exceeded Target{% else %}Critical Deviation{% endif %} |
+{% else %}
+| {{ gap.metric_name }} | {{ "%.4f"|format(gap.target) }} | N/A | N/A | N/A | Unable to Evaluate |
+{% endif %}
+{% endfor %}
+
+## Gap Analysis
+
+{% for gap in gap_analysis %}
+### {{ gap.metric_name }}
+
+- **Target**: {{ gap.target }}
+- **Achieved**: {% if gap.achieved is not none %}{{ gap.achieved }}{% else %}Not available{% endif %}
+- **Gap**: {% if gap.gap is not none %}{{ gap.gap }}{% else %}N/A{% endif %}
+- **Assessment**: {% if gap.assessment == 'acceptable' %}Acceptable range
+  {% elif gap.assessment == 'mild_deviation' %}Mild deviation, possibly due to randomness or small-scale data
+  {% elif gap.assessment == 'significant_deviation' %}Significant deviation, needs further investigation
+  {% elif gap.assessment == 'exceeded' %}Exceeded paper target
+  {% else %}Critical deviation, reproduction has issues
+  {% endif %}
+
+{% endfor %}
+
+## Dataset Status
+
+| Check | Status |
+|-------|--------|
+| **Dataset Available** | {% if data_available %}Yes{% else %}No{% endif %} |
+| **Code Runnable** | {% if code_runs %}Yes{% else %}No{% endif %} |
+
+{% if data_issues %}
+### Data Issues
+{% for issue in data_issues %}
+- {{ issue }}
+{% endfor %}
+{% endif %}
+
+{% if execution_issues %}
+### Execution Issues
+{% for issue in execution_issues %}
+- {{ issue }}
+{% endfor %}
+{% endif %}
+
+## Reproduction Details
+
+### Step Execution Record
+
+| Step | Status | Duration | Command |
+|------|--------|----------|---------|
+{% for step in steps_executed %}
+| {{ step.step_number }} | {% if step.status == 'success' %}OK{% elif step.status == 'failed' %}FAIL{% else %}WARN{% endif %} | {{ "%.1f"|format(step.duration_seconds) }}s | `{{ step.command }}` |
+{% endfor %}
+
+### Environment Info
+
+- **Python Version**: {{ python_version }}
+- **CUDA Available**: {% if cuda_available %}Yes{% else %}No{% endif %}
+{% if gpu_info %}
+- **GPU Info**: {{ gpu_info }}
+{% endif %}
+
+### Modification Record
+
+{% if modifications_made %}
+{% for mod in modifications_made %}
+- **File**: {{ mod.file }}
+  - **Reason**: {{ mod.reason }}
+  - **Approved**: {% if mod.approved %}Yes{% else %}Pending{% endif %}
+{% endfor %}
+{% else %}
+No modifications
+{% endif %}
+
+## Issues and Risks
+
+{% if issues %}
+{% for issue in issues %}
+- WARNING: {{ issue }}
+{% endfor %}
+{% else %}
+No known issues
+{% endif %}
+
+{% if critical_risks %}
+### Critical Risks
+{% for risk in critical_risks %}
+- **{{ risk.risk }}**
+  - Mitigation: {{ risk.mitigation }}
+  - Fallback: {{ risk.fallback }}
+{% endfor %}
+{% endif %}
+
+## Recommendations
+
+{% if recommendations %}
+{% for rec in recommendations %}
+- {{ rec }}
+{% endfor %}
+{% else %}
+1. Use test-only mode to quickly verify code correctness
+2. For full reproduction, ensure dataset is complete and parameters are correctly configured
+3. If encountering issues, check log files for detailed information
+{% endif %}
+
+## Attachments
+
+- Paper parsing result: `claude_outputs/step1_paper_parse.json`
+- Repository parsing result: `claude_outputs/step2_repo_parse.json`
+- Dataset check result: `claude_outputs/step3_dataset_check.json`
+- Execution plan: `claude_outputs/step4_plan.json`
+- Execution record: `claude_outputs/step5_execution.json`
+- Evaluation result: `claude_outputs/step6_evaluation.json`
+
+---
+
+*Report generated: {{ timestamp }}*
+*Generated by RSCDAgent*

@@ -1,0 +1,28 @@
+{
+  "id": "patch_02",
+  "timestamp": "2026-04-23T15:30:00",
+  "file": "configs/BIT-LEVIR.yaml",
+  "field": "batch_size",
+  "original_value": 16,
+  "new_value": 8,
+  "reason": "减少 batch size 以降低 GPU 显存占用，适用于显存较小的 GPU (如 8GB)",
+  "approved": false,
+  "status": "pending",
+  "diff": "--- configs/BIT-LEVIR.yaml\n+++ configs/BIT-LEVIR.yaml\n@@ ... @@\n-batch_size: 16\n+batch_size: 8\n",
+  "diff_type": "inline",
+  "risk_level": "low",
+  "modification_type": "training_parameter",
+  "expected_impact": "可能略微影响收敛速度和最终精度，但差异通常 < 1%",
+  "safety_checks": {
+    "field_safe": true,
+    "path_safe": true,
+    "no_credentials": true,
+    "no_system_files": true,
+    "within_reasonable_range": true
+  },
+  "related_fields": {
+    "learning_rate": "建议保持不变，或根据 batch size 适当调整"
+  },
+  "execution_command": "sed -i 's|batch_size: 16|batch_size: 8|g' configs/BIT-LEVIR.yaml",
+  "rollback_command": "sed -i 's|batch_size: 8|batch_size: 16|g' configs/BIT-LEVIR.yaml"
+}

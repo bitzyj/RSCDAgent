@@ -1,0 +1,119 @@
+# Command whitelist - RSCDAgent only allows executing the following commands
+# Used for security control in run_repro.py
+
+# Allowed commands list
+allowed_commands:
+  # Git operations
+  - git clone
+  - git pull
+  - git checkout
+  - git status
+  - git log
+  - git diff
+
+  # Python environment
+  - python
+  - python3
+  - pip
+  - pip3
+  - pip install
+  - pip uninstall
+  - python -m venv
+  - python3 -m venv
+  - conda create
+  - conda install
+  - conda activate
+
+  # Directory operations
+  - mkdir
+  - ls
+  - ls -la
+  - cd
+  - pwd
+  - cp
+  - mv
+  - rm -rf
+  - find
+  - tree
+
+  # File operations
+  - cat
+  - head
+  - tail
+  - wc
+  - grep
+  - awk
+  - sed
+
+  # Training related (needs whitelist)
+  - python train.py
+  - python train.py --config
+  - python train.py --checkpoint
+  - python train.py --epochs
+  - python main.py
+  - python main.py --config
+  - bash train.sh
+  - bash run.sh
+
+  # Test related
+  - python test.py
+  - python eval.py
+  - python evaluate.py
+  - bash test.sh
+  - bash eval.sh
+
+  # Data processing
+  - python preprocess.py
+  - python prepare_data.py
+
+  # Network operations
+  - wget
+  - curl
+  - rsync
+
+# Forbidden patterns (regular expressions)
+forbidden_patterns:
+  - ".*;.*rm.*rf.*"      # Prevent command injection
+  - ".*&&.*rm"           # Prevent chained deletion
+  - ".*\\|.*rm"          # Prevent pipe deletion
+  - ".*eval.*"           # Prevent eval injection
+  - ".*exec.*"           # Prevent exec injection
+  - ".*subprocess.*"    # Prevent subprocess calls
+  - ".*os.system.*"      # Prevent os.system calls
+  - ".*;.*chmod.*"       # Prevent permission modification
+  - ".*&&.*chmod.*"      # Prevent chained permission modification
+
+# Allowed file extensions (for patch review)
+allowed_file_extensions:
+  - .py
+  - .yaml
+  - .yml
+  - .json
+  - .sh
+  - .cfg
+  - .ini
+  - .txt
+  - .md
+  - .toml
+  - .env
+
+# Allowed directories for modification
+allowed_directories:
+  - configs/
+  - config/
+  - scripts/
+  - utils/
+  - models/
+  - data/
+  - tools/
+
+# Forbidden directories/files for modification
+forbidden_paths:
+  - /etc/
+  - /usr/
+  - /bin/
+  - /sbin/
+  - ~/.ssh/
+  - ~/.aws/
+  - credentials.json
+  - .env (unless explicitly allowed)

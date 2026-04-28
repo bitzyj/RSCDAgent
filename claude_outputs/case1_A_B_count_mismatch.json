@@ -1,0 +1,16 @@
+{
+  "case_id": "case1",
+  "severity": "error",
+  "category": "pairing",
+  "description": "A/B 数量不一致",
+  "dataset_path": "D:/data/WrongCDD",
+  "split": "train",
+  "details": {
+    "a_count": 450,
+    "b_count": 448,
+    "missing_in_b": 2,
+    "missing_files": ["train_100.png", "train_200.png"]
+  },
+  "impact": "无法进行变化检测训练",
+  "suggestion": "补充缺失的 B 时相图像或删除对应的 A 图像和标签"
+}

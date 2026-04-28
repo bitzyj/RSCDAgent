@@ -1,0 +1,156 @@
+# Dataset Check Report
+
+## Check Summary
+
+| Field | Value |
+|-------|-------|
+| **Dataset Path** | {{ dataset_path }} |
+| **Dataset Type** | {{ dataset_type }} |
+| **Check Status** | {% if status == 'pass' %}PASS{% elif status == 'warning' %}WARNING{% else %}FAIL{% endif %} |
+
+## Split Statistics
+
+| Split | A Count | B Count | Label Count | Pairing Status |
+|-------|---------|---------|-------------|----------------|
+{% if split_analysis %}
+| Train | {{ split_analysis.train.a_count }} | {{ split_analysis.train.b_count }} | {{ split_analysis.train.label_count }} | {% if split_analysis.train.exists %}{% if split_analysis.train.a_count == split_analysis.train.b_count == split_analysis.train.label_count %}OK{% else %}FAIL{% endif %}{% else %}N/A{% endif %} |
+| Val   | {{ split_analysis.val.a_count }} | {{ split_analysis.val.b_count }} | {{ split_analysis.val.label_count }} | {% if split_analysis.val.exists %}{% if split_analysis.val.a_count == split_analysis.val.b_count == split_analysis.val.label_count %}OK{% else %}FAIL{% endif %}{% else %}N/A{% endif %} |
+| Test  | {{ split_analysis.test.a_count }} | {{ split_analysis.test.b_count }} | {{ split_analysis.test.label_count }} | {% if split_analysis.test.exists %}{% if split_analysis.test.a_count == split_analysis.test.b_count == split_analysis.test.label_count %}OK{% else %}FAIL{% endif %}{% else %}N/A{% endif %} |
+{% else %}
+| Train | - | - | - | N/A |
+| Val   | - | - | - | N/A |
+| Test  | - | - | - | N/A |
+{% endif %}
+
+## Pairing Check
+
+| Check | Status |
+|-------|--------|
+| **A-B Pairing** | {% if pairing_checks.a_b_matched %}OK Matched{% else %}FAIL Mismatched{% endif %} |
+| **A-Label Pairing** | {% if pairing_checks.a_label_matched %}OK Matched{% else %}FAIL Mismatched{% endif %} |
+| **B-Label Pairing** | {% if pairing_checks.b_label_matched %}OK Matched{% else %}FAIL Mismatched{% endif %} |
+
+{% if pairing_checks.mismatched_files %}
+### Mismatched Files
+
+| Type | Filename | Reason |
+|------|----------|--------|
+{% for mismatch in pairing_checks.mismatched_files %}
+| {{ mismatch.type }} | {{ mismatch.filename }} | {{ mismatch.reason }} |
+{% endfor %}
+{% endif %}
+
+## Image Checks
+
+| Check | Result |
+|-------|--------|
+| **Size Consistency** | {% if image_checks.size_consistency.consistent %}OK Consistent{% else %}FAIL Inconsistent{% endif %} |
+| **Format** | {{ image_checks.format }} |
+| **Bit Depth** | {{ image_checks.bit_depth or 'N/A' }} |
+
+{% if image_checks.size_consistency.mismatches %}
+### Size Mismatched Files
+
+| Filename | Expected Size | Actual Size |
+|----------|---------------|-------------|
+{% for mismatch in image_checks.size_consistency.mismatches %}
+| {{ mismatch.filename }} | {{ mismatch.expected_size | join('x') }} | {{ mismatch.actual_size | join('x') }} |
+{% endfor %}
+{% endif %}
+
+## Label Checks
+
+| Check | Result |
+|-------|--------|
+| **Value Range** | [{{ label_checks.value_range.min }}, {{ label_checks.value_range.max }}] |
+| **Binary** | {% if label_checks.binary %}Yes{% else %}No{% endif %} |
+| **Valid Values** | {{ label_checks.valid_values | join(', ') }} |
+| **Invalid Pixels** | {{ (label_checks.invalid_pixels * 100) | round(2) }}% |
+
+## Image Format and Metadata
+
+**Image Format**: {{ image_checks.format }}
+
+{% if image_checks.format == 'TIFF' %}
+### TIFF Metadata
+
+| Check | Result |
+|-------|--------|
+| **Has Geo Info** | {% if tif_metadata.has_geoinfo %}Yes{% else %}No{% endif %} |
+| **Projection** | {{ tif_metadata.projection or 'N/A' }} |
+| **Resolution** | {% if tif_metadata.resolution %}{{ tif_metadata.resolution | join('x') }}{% else %}N/A{% endif %} |
+
+{% else %}
+### Metadata Note
+
+PNG format does not support TIFF metadata (such as geocoordinates, projection, etc.).
+
+{% if tif_metadata.resolution %}
+- **Image Resolution**: {{ tif_metadata.resolution | join('x') }}
+{% endif %}
+
+{% if tif_metadata.bands %}
+- **Number of Bands**: {{ tif_metadata.bands }}
+{% endif %}
+{% endif %}
+
+## Temporal Information
+
+| Check | Result |
+|-------|--------|
+| **Format** | PNG does not support embedded timestamps |
+| **Suggestion** | Use filename or directory name to organize temporal pairs |
+
+## Issues Summary
+
+### Errors ({{ summary.total_errors }})
+
+{% if summary.total_errors > 0 %}
+{% for anomaly in anomalies %}
+{% if anomaly.severity == 'error' %}
+- ERROR [{{ anomaly.category }}] {{ anomaly.description }}
+{% endif %}
+{% endfor %}
+{% else %}
+No errors
+{% endif %}
+
+### Warnings ({{ summary.total_warnings }})
+
+{% if summary.total_warnings > 0 %}
+{% for anomaly in anomalies %}
+{% if anomaly.severity == 'warning' %}
+- WARN [{{ anomaly.category }}] {{ anomaly.description }}
+{% endif %}
+{% endfor %}
+{% else %}
+No warnings
+{% endif %}
+
+## Conclusion
+
+{% if summary.reproducible %}
+### Dataset Reproducible
+
+{% if summary.blocking_issues %}
+But there are blocking issues:
+{% for issue in summary.blocking_issues %}
+- {{ issue }}
+{% endfor %}
+{% endif %}
+
+{% else %}
+### Dataset Not Reproducible
+
+There are blocking issues:
+{% for issue in summary.blocking_issues %}
+- {{ issue }}
+{% endfor %}
+
+**These issues must be resolved before reproduction.**
+{% endif %}
+
+---
+
+*Report generated: {{ timestamp }}*
+*Generated by RSCDAgent*

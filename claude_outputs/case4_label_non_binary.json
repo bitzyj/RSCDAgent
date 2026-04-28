@@ -1,0 +1,16 @@
+{
+  "case_id": "case4",
+  "severity": "warning",
+  "category": "label_check",
+  "description": "标签包含非二值像素",
+  "dataset_path": "D:/data/RawLabelsCD",
+  "split": "train",
+  "details": {
+    "expected_values": [0, 1],
+    "actual_values": [0, 1, 2, 255],
+    "invalid_pixel_count": 1523,
+    "invalid_ratio": 0.023
+  },
+  "impact": "变化区域被过度细分，可能影响模型学习",
+  "suggestion": "将标签值 > 1 的像素归一化为 1（二值化处理）"
+}

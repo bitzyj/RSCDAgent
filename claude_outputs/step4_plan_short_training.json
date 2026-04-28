@@ -1,0 +1,131 @@
+{
+  "step": "generate_plan",
+  "status": "success",
+  "plan_id": "plan_bit_short",
+  "recommended_steps": [
+    {
+      "step_number": 1,
+      "action": "准备环境",
+      "description": "创建 Python 虚拟环境并安装依赖",
+      "command": "python -m venv env && source env/bin/activate && pip install -r requirements.txt",
+      "config_modifications": [],
+      "expected_output": "venv 目录创建成功，依赖安装完成",
+      "risk_level": "low",
+      "stop_condition": null,
+      "retry_condition": null,
+      "estimated_time": "5-10min"
+    },
+    {
+      "step_number": 2,
+      "action": "准备数据集",
+      "description": "链接或复制 LEVIR-CD 数据集到正确位置",
+      "command": "mkdir -p datasets && ln -s /path/to/LEVIR-CD datasets/LEVIR",
+      "config_modifications": [
+        {
+          "file": "configs/BIT-LEVIR.yaml",
+          "field": "data_root",
+          "current_value": "./datasets",
+          "recommended_value": "./datasets/LEVIR",
+          "reason": "需要指定正确的本地数据集路径"
+        }
+      ],
+      "expected_output": "数据集路径配置正确",
+      "risk_level": "low",
+      "stop_condition": null,
+      "retry_condition": null,
+      "estimated_time": "1-5min"
+    },
+    {
+      "step_number": 3,
+      "action": "Dry-run 验证",
+      "description": "验证代码和配置可以正常加载（少量数据）",
+      "command": "python train.py --config configs/BIT-LEVIR.yaml --epochs 1 --max_batches 10",
+      "config_modifications": [
+        {
+          "file": "configs/BIT-LEVIR.yaml",
+          "field": "max_batches",
+          "current_value": null,
+          "recommended_value": 10,
+          "reason": "快速验证时限制 batch 数量"
+        }
+      ],
+      "expected_output": "配置文件加载成功，模型可以初始化",
+      "risk_level": "low",
+      "stop_condition": null,
+      "retry_condition": null,
+      "estimated_time": "1-2min"
+    },
+    {
+      "step_number": 4,
+      "action": "短训练",
+      "description": "训练模型 20 epochs 验证流程",
+      "command": "python train.py --config configs/BIT-LEVIR.yaml --epochs 20",
+      "config_modifications": [
+        {
+          "file": "configs/BIT-LEVIR.yaml",
+          "field": "epochs",
+          "current_value": 200,
+          "recommended_value": 20,
+          "reason": "快速验证时减少 epochs"
+        },
+        {
+          "file": "configs/BIT-LEVIR.yaml",
+          "field": "batch_size",
+          "current_value": 16,
+          "recommended_value": 8,
+          "reason": "小 batch size 减少显存占用"
+        }
+      ],
+      "expected_output": "训练完成，loss 下降",
+      "risk_level": "medium",
+      "stop_condition": "loss 不下降超过 5 个 epoch",
+      "retry_condition": "检查数据加载是否正确",
+      "estimated_time": "1-2h"
+    },
+    {
+      "step_number": 5,
+      "action": "评估与对比",
+      "description": "在测试集上评估并与论文目标对比",
+      "command": "python test.py --config configs/BIT-LEVIR.yaml --checkpoint checkpoints/best.pth",
+      "config_modifications": [],
+      "expected_output": "评估完成，输出指标（预期低于论文目标）",
+      "risk_level": "low",
+      "stop_condition": null,
+      "retry_condition": null,
+      "estimated_time": "5-10min"
+    }
+  ],
+  "execution_order": [1, 2, 3, 4, 5],
+  "critical_risks": [
+    {
+      "risk": "短训练后指标可能显著低于论文",
+      "mitigation": "关注 loss 下降趋势而非绝对值",
+      "fallback": "延长训练到 50-100 epochs"
+    },
+    {
+      "risk": "batch size 减小可能影响收敛稳定性",
+      "mitigation": "适当提高学习率",
+      "fallback": "恢复 batch_size=16"
+    }
+  ],
+  "required_modifications": [
+    {
+      "file": "configs/BIT-LEVIR.yaml",
+      "field": "data_root",
+      "reason": "需要指向本地数据集路径"
+    },
+    {
+      "file": "configs/BIT-LEVIR.yaml",
+      "field": "epochs",
+      "reason": "快速验证时减少到 20"
+    }
+  ],
+  "estimated_total_time": "1.5-3h",
+  "dry_run_recommended": true,
+  "test_only_mode": {
+    "supported": false,
+    "command": null,
+    "limitations": ["无预训练权重，需完整训练"]
+  },
+  "timestamp": "2026-04-23T12:30:00"
+}

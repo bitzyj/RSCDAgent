@@ -1,0 +1,77 @@
+{
+  "step": "dataset_check",
+  "status": "warning",
+  "dataset_path": "D:/学习/数据/LEVIR-CD256/LEVIR-CD256/dataset",
+  "dataset_type": "LEVIR-CD",
+  "has_split_structure": false,
+  "split_analysis": {
+    "train": {
+      "exists": true,
+      "a_count": 362,
+      "b_count": 362,
+      "label_count": 362
+    },
+    "val": {
+      "exists": true,
+      "a_count": 64,
+      "b_count": 64,
+      "label_count": 64
+    },
+    "test": {
+      "exists": true,
+      "a_count": 64,
+      "b_count": 64,
+      "label_count": 64
+    }
+  },
+  "pairing_checks": {
+    "a_b_matched": true,
+    "a_label_matched": true,
+    "b_label_matched": true,
+    "mismatched_files": []
+  },
+  "image_checks": {
+    "size_consistency": {
+      "consistent": true,
+      "mismatches": []
+    },
+    "bit_depth": 8,
+    "format": "PNG",
+    "mode": "RGB",
+    "sample_size": [256, 256]
+  },
+  "label_checks": {
+    "value_range": {
+      "min": 0,
+      "max": 1
+    },
+    "binary": true,
+    "valid_values": [0, 1],
+    "invalid_pixels": 0.0
+  },
+  "tif_metadata": {
+    "has_geoinfo": false,
+    "resolution": null,
+    "bands": 3,
+    "note": "PNG format does not support TIFF metadata"
+  },
+  "temporal_checks": {
+    "has_timestamp": false,
+    "note": "PNG does not embed timestamps, use filename/directory organization"
+  },
+  "anomalies": [
+    {
+      "severity": "warning",
+      "category": "structure",
+      "description": "数据集未按 train/val/test 目录组织",
+      "affected_files": null
+    }
+  ],
+  "summary": {
+    "total_errors": 0,
+    "total_warnings": 1,
+    "reproducible": true,
+    "blocking_issues": []
+  },
+  "timestamp": "2026-04-23T12:00:00"
+}
